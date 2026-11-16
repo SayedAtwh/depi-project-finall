@@ -1,0 +1,12 @@
+FROM php:8.2-apache
+
+RUN docker-php-ext-install mysqli \
+    && docker-php-ext-enable mysqli
+
+WORKDIR /var/www/html
+
+COPY api/ /var/www/html/api/
+
+EXPOSE 80
+
+CMD ["apache2-foreground"]

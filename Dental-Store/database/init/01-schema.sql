@@ -1,0 +1,49 @@
+CREATE DATABASE IF NOT EXISTS dental_store
+CHARACTER SET utf8
+COLLATE utf8_general_ci;
+
+USE dental_store;
+
+CREATE TABLE IF NOT EXISTS Customers (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Phone_num VARCHAR(50),
+    address TEXT
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS Products (
+    Product_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Category VARCHAR(100),
+    price DECIMAL(10, 2) NOT NULL,
+    Stock_qty INT NOT NULL DEFAULT 0,
+    image_url VARCHAR(500) DEFAULT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS orders (
+    order_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Customer_ID INT NOT NULL,
+    order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Customer_ID)
+        REFERENCES Customers(ID)
+        ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS order_details (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    order_ID INT NOT NULL,
+    product_ID INT NOT NULL,
+    quantity INT NOT NULL,
+    FOREIGN KEY (order_ID)
+        REFERENCES orders(order_ID)
+        ON DELETE CASCADE,
+    FOREIGN KEY (product_ID)
+        REFERENCES Products(Product_ID)
+        ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS admins (
+    admin_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password  VARCHAR(255) NOT 
+) ENGINE=InnoDB;
