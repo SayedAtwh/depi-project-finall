@@ -1,0 +1,13 @@
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-backend-dental-store
+  namespace: ns-dental-store
+  labels:
+    name: dental-store
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: sc-dental-store
+  resources:
+    requests:
+      storage: 20Gi

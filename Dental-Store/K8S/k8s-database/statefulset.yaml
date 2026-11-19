@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: statefulset-dental-store
+  namespace: ns-dental-store
+  labels:
+    name: dental-store
+    tier: database
+spec:
+  serviceName: service-dental-store
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dental-store
+      tier: database
+  template:
+    metadata:
+      labels:
+        app: dental-store
+        tier: database
+    spec:
+      containers:
+        - name: mysql
+          image: sayedatwhdevops/dental-store-mysql:v1
+          ports:
+            - containerPort: 3306
+              name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-dental-store
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DATABASE
+              value: dental_store
+          volumeMounts:
+            - name: statefulset-dental-store-storage
+              mountPath: /var/lib/mysql
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - mysqladmin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD"
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - mysqladmin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD"
+            initialDelaySeconds: 60
+            periodSeconds: 20
+
+      volumes:
+        - name: statefulset-dental-store-storage
+          persistentVolumeClaim:
+            claimName: pvc-db-dental-store

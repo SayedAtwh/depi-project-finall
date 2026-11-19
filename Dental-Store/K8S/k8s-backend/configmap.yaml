@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-dental-store
+  namespace: ns-dental-store
+  labels:
+    name: dental-store
+data:
+  DB_HOST: "mysql"
+  DB_PORT: "3306"
+  DB_NAME: "dental_store"
+  DB_USER: "root"

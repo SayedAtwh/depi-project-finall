@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-dental-store
+  namespace: ns-dental-store
+  labels:
+    app: dental-store
+    tier: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dental-store
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: dental-store
+        tier: backend
+    spec:
+      containers:
+        - name: backend
+          image: sayedatwhdevops/dental-store-backend:v1
+          volumeMounts:
+            - mountPath: /var/www/html/uploads
+              name: pvc-backend-dental-store
+          ports:
+            - containerPort: 80
+              name: backend
+          envFrom:
+            - configMapRef:
+                name: configmap-dental-store
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-dental-store
+                  key: MYSQL_ROOT_PASSWORD
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: pvc-backend-dental-store
+          persistentVolumeClaim:
+            claimName: pvc-backend-dental-store

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-frontend-dental-store
+  namespace: ns-dental-store
+  labels:
+    app: dental-store
+    tier: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dental-store
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: dental-store
+        tier: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: sayedatwhdevops/dental-store-frontend:v1
+          ports:
+            - containerPort: 80
+              name: frontend
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
