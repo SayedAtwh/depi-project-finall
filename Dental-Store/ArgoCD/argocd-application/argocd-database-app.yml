@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-database-app-dental-store
+  namespace: argocd
+  labels:
+    app: dental-store
+    tier: database
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/SayedAtwh/depi-project-finall.git"
+    targetRevision: main
+    path: Dental-Store/K8S/k8s-database
+    directory:
+      recurse: true
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ns-dental-store
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  revisionHistoryLimit: 10

@@ -25,6 +25,10 @@ spec:
           ports:
             - containerPort: 3306
               name: mysql
+          securityContext:
+            runAsUser: 999
+            runAsGroup: 999
+            runAsNonRoot: true
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
