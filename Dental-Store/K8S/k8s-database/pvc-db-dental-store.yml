@@ -6,7 +6,7 @@ metadata:
   labels:
     name: dental-store
   annotations:
-    argocd.argoproj.io/sync-wave: "-1"
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   accessModes:
     - ReadWriteMany
