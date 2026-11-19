@@ -3,8 +3,11 @@ kind: ConfigMap
 metadata:
   name: configmap-frontend-dental-store
   namespace: ns-dental-store
+  annotations:
+     argocd.argoproj.io/sync-wave: "8"
   labels:
     name: dental-store
+    
 data:
   default.conf: |
     server {

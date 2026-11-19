@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: deployment-frontend-dental-store
   namespace: ns-dental-store
+  annotations:
+      argocd.argoproj.io/sync-wave: "9"
   labels:
     app: dental-store
     tier: frontend

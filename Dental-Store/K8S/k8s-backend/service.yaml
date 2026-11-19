@@ -6,6 +6,8 @@ metadata:
   labels:
     app: dental-store
     tier: backend
+  annotations:
+     argocd.argoproj.io/sync-wave: "7"
 spec:
   type: ClusterIP
   selector:

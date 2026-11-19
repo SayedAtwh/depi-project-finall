@@ -6,6 +6,7 @@ metadata:
     name: dental-store
   annotations:
     storageclass.kubernetes.io/is-default-class: "false"
+    argocd.argoproj.io/sync-wave: "0"
 provisioner: efs.csi.aws.com
 reclaimPolicy: Delete
 allowVolumeExpansion: true

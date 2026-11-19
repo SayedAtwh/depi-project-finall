@@ -6,6 +6,8 @@ metadata:
   labels:
     name: dental-store
     tier: database
+  annotations:
+     argocd.argoproj.io/sync-wave: "2"
 spec:
   serviceName: service-dental-store
   replicas: 1
