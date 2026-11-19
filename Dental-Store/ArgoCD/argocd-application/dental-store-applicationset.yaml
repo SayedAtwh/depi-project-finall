@@ -9,52 +9,22 @@ spec:
     - list:
         elements:
           - name: argocd-database-app-dental-store
-            tier: database
             path: Dental-Store/K8S/k8s-database
+            tier: database
 
           - name: argocd-backend-app-dental-store
-            tier: backend
             path: Dental-Store/K8S/k8s-backend
+            tier: backend
 
           - name: argocd-frontend-app-dental-store
-            tier: frontend
             path: Dental-Store/K8S/k8s-frontend
-
-  strategy:
-    type: RollingSync
-    rollingSync:
-      steps:
-        - matchExpressions:
-            - key: tier
-              operator: In
-              values:
-                - database
-          maxUpdate: 100%
-
-        - matchExpressions:
-            - key: tier
-              operator: In
-              values:
-                - backend
-          maxUpdate: 100%
-
-        - matchExpressions:
-            - key: tier
-              operator: In
-              values:
-                - frontend
-          maxUpdate: 100%
-
-  syncPolicy:
-    applicationsSync: create-update
-    preserveResourcesOnDeletion: true
+            tier: frontend
 
   template:
     metadata:
-      name: '{{name}}'
+      name: "myapp-{{name}}"
       labels:
-        app: dental-store
-        tier: '{{tier}}'
+        tier: "{{tier}}"
 
     spec:
       project: default
@@ -62,7 +32,7 @@ spec:
       source:
         repoURL: https://github.com/SayedAtwh/depi-project-finall.git
         targetRevision: main
-        path: '{{path}}'
+        path: "{{path}}"
         directory:
           recurse: true
 
@@ -71,5 +41,10 @@ spec:
         namespace: ns-dental-store
 
       syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
         syncOptions:
           - CreateNamespace=true
+
+      revisionHistoryLimit: 10
