@@ -8,7 +8,7 @@ metadata:
   annotations:
      argocd.argoproj.io/sync-wave: "4"
 data:
-  DB_HOST: "mysql"
+  DB_HOST: "service-database-dental-store"
   DB_PORT: "3306"
   DB_NAME: "dental_store"
   DB_USER: "root"

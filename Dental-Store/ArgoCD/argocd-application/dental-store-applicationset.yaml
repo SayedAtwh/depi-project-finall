@@ -5,6 +5,26 @@ metadata:
   namespace: argocd
 
 spec:
+  strategy:
+    type: RollingSync
+    rollingSync:
+      steps:
+        - matchExpressions:
+            - key: tier
+              operator: In
+              values:
+                - database
+        - matchExpressions:
+            - key: tier
+              operator: In
+              values:
+                - backend
+        - matchExpressions:
+            - key: tier
+              operator: In
+              values:
+                - frontend
+
   generators:
     - list:
         elements:
@@ -41,9 +61,8 @@ spec:
         namespace: ns-dental-store
 
       syncPolicy:
-        automated:
+        manualDefaults:
           prune: true
-          selfHeal: true
         syncOptions:
           - CreateNamespace=true
 
