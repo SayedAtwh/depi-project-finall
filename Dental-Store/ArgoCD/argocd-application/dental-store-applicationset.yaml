@@ -61,8 +61,6 @@ spec:
         namespace: ns-dental-store
 
       syncPolicy:
-        manualDefaults:
-          prune: true
         syncOptions:
           - CreateNamespace=true
 
